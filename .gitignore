@@ -1,3 +1,5 @@
+# Next.js build output
+apps/ssr/.next/
 node_modules
 .DS_Store
 dist

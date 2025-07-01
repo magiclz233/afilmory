@@ -67,4 +67,21 @@ export type GitHubConfig = {
   path?: string
   useRawUrl?: boolean
 }
-export type StorageConfig = S3Config | GitHubConfig
+
+// 添加本地文件系统配置接口
+export interface LocalFSConfig {
+  provider: 'local-fs'
+  // 本地文件系统基础路径
+  basePath: string
+  // 可选前缀，指定子目录
+  prefix?: string
+  // 用于网络访问的自定义域名
+  customDomain?: string
+  // 排除文件的正则表达式
+  excludeRegex?: string
+  // 文件数量限制
+  maxFileLimit?: number
+}
+
+// 更新存储配置类型
+export type StorageConfig = S3Config | GitHubConfig | LocalFSConfig

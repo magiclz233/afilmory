@@ -23,10 +23,20 @@ export class S3StorageProvider implements StorageProvider {
 
   constructor(config: S3Config) {
     this.config = config
+
+    // 检查S3客户端是否可用
+    if (!s3Client) {
+      throw new Error('S3客户端未初始化，无法使用S3存储提供商')
+    }
   }
 
   async getFile(key: string): Promise<Buffer | null> {
     try {
+      // 确保S3客户端可用
+      if (!s3Client) {
+        throw new Error('S3客户端未初始化')
+      }
+
       logger.s3.info(`下载文件：${key}`)
       const startTime = Date.now()
 
@@ -79,6 +89,11 @@ export class S3StorageProvider implements StorageProvider {
   }
 
   async listImages(): Promise<StorageObject[]> {
+    // 确保S3客户端可用
+    if (!s3Client) {
+      throw new Error('S3客户端未初始化')
+    }
+
     const listCommand = new ListObjectsV2Command({
       Bucket: this.config.bucket,
       Prefix: this.config.prefix,
@@ -106,6 +121,11 @@ export class S3StorageProvider implements StorageProvider {
   }
 
   async listAllFiles(): Promise<StorageObject[]> {
+    // 确保S3客户端可用
+    if (!s3Client) {
+      throw new Error('S3客户端未初始化')
+    }
+
     const listCommand = new ListObjectsV2Command({
       Bucket: this.config.bucket,
       Prefix: this.config.prefix,

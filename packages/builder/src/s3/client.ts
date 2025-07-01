@@ -3,11 +3,12 @@ import { S3Client } from '@aws-sdk/client-s3'
 import { builderConfig } from '@builder'
 
 // 创建 S3 客户端
-function createS3Client(): S3Client {
+function createS3Client(): S3Client | null {
   const storageConfig = builderConfig.storage
 
+  // 如果不是S3存储提供商，返回null
   if (storageConfig.provider !== 's3') {
-    throw new Error('Storage provider is not s3')
+    return null
   }
 
   const { accessKeyId, secretAccessKey, endpoint, region } = storageConfig
@@ -31,4 +32,5 @@ function createS3Client(): S3Client {
   return new S3Client(s3ClientConfig)
 }
 
+// 导出S3客户端或null（对于非S3存储提供商）
 export const s3Client = createS3Client()

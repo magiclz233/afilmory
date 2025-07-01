@@ -26,7 +26,9 @@ import { ogImagePlugin } from './plugins/vite/og-image-plugin'
 const devPrint = (): PluginOption => ({
   name: 'dev-print',
   configureServer(server: ViteDevServer) {
+    const originalPrintUrls = server.printUrls
     server.printUrls = () => {
+      originalPrintUrls()
       console.info(
         `  ${green('➜')}  ${dim('Next.js SSR')}: ${cyan(
           'http://localhost:1924',
@@ -36,7 +38,8 @@ const devPrint = (): PluginOption => ({
   },
 })
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 if (process.env.CI) {
   rmSync(path.join(process.cwd(), 'src/pages/(debug)'), {
@@ -110,6 +113,15 @@ export default defineConfig({
   ],
   server: {
     port: !DEV_NEXT_JS ? 1924 : 3000, // 1924 年首款 35mm 相机问世
+    watch: {
+      ignored: ['**/DumpStack.log.tmp'],
+    },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:1924',
+        changeOrigin: true,
+      },
+    },
   },
   define: {
     APP_DEV_CWD: JSON.stringify(process.cwd()),

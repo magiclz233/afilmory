@@ -24,6 +24,7 @@
     "@t3-oss/env-core": "catalog:",
     "dotenv": "16.5.0",
     "es-toolkit": "1.39.5",
+    "optional": "^0.1.4",
     "zod": "catalog:"
   },
   "devDependencies": {

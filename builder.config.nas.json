@@ -1,0 +1,29 @@
+{
+  "storage": {
+    "provider": "local-fs",
+    "basePath": "/photos",
+    "prefix": "",
+    "customDomain": "",
+    "excludeRegex": "^\\..*|.*\\.db$"
+  },
+  "options": {
+    "defaultConcurrency": 5,
+    "enableLivePhotoDetection": true,
+    "showProgress": true,
+    "showDetailedStats": true
+  },
+  "performance": {
+    "worker": {
+      "workerCount": 2,
+      "timeout": 60000,
+      "useClusterMode": true,
+      "workerConcurrency": 2
+    }
+  },
+  "logging": {
+    "verbose": true,
+    "level": "info",
+    "outputToFile": true,
+    "logFilePath": "/config/afilmory.log"
+  }
+} 
